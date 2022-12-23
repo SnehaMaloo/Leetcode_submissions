@@ -48,11 +48,7 @@ class Solution {
         }
         dp[0][0]=1;
         for(int row=1;row<n+1;row++){
-            if(arr[row-1]==0)
-            {
-                dp[row][0]=2*dp[row-1][0];
-            }
-            else{dp[row][0]=1;}
+            dp[row][0]=1;
         }
        
         for(int i=1;i<n+1;i++){
