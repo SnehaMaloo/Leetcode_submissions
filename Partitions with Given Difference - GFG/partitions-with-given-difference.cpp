@@ -30,32 +30,36 @@ class Solution {
     // }
     int countPartitions(int n, int d, vector<int>& arr) {
         int sum=0;
-        for(int i=0;i<n;i++)
-        {
-            sum+=arr[i];
+        for(auto i:arr){
+            sum+=i;
         }
-        if((sum+d)%2==1)
-        {
+        int s=(sum+d)/2;
+        if((sum+d)%2==1){
             return 0;
         }
-        int m=(sum+d+2)/2;
-        int s=(sum+d)/2;
-        vector<vector<int>>dp(n+1,vector<int>(m,0));
-        dp[n][0]=1;
-        for(int i=n-1;i>=0;i--)
-        {
-            for(int j=0;j<=s;j++)
-            {
-                int pick=0;
-                int not_pick=dp[i+1][j]%M;
-                if(arr[i]<=j)
-                {
-                    pick=dp[i+1][j-arr[i]]%M;
+        
+
+        int mod=1e9+7;
+        
+        vector<vector<int>>dp(n+1,vector<int>(s+1,0));
+        //1)inititalisation
+        for(int col=1;col<s+1;col++){
+            dp[0][col]=0;
+        }
+        dp[0][0]=1;
+        for(int row=1;row<n+1;row++){
+            dp[row][0]=1;
+        }
+       
+        for(int i=1;i<n+1;i++){
+            for(int j=0;j<s+1;j++){
+                if(arr[i-1]<=j){
+                    dp[i][j]=(dp[i-1][j-arr[i-1]]+dp[i-1][j])%mod;
                 }
-                dp[i][j]=(pick+not_pick)%M;
+                else{dp[i][j]=(dp[i-1][j])%mod;}
             }
         }
-        return dp[0][s];
+        return (dp[n][s])%mod;
     }
 };
 
