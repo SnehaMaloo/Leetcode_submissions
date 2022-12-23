@@ -6,9 +6,8 @@ using namespace std;
 class Solution{
 
 	public:
-	int perfectSum(int nums[], int n, int s)
-	{   //int sum=0;
-	    int M=1e9+7;
+	int perfectSum(int nums[], int n, int target)
+	{
         // for(auto i:nums){
         //     sum+=i;
         // }
@@ -18,10 +17,10 @@ class Solution{
         // {
         //     return 0;
         // }
-        // int n=nums.size();
-        vector<vector<int>>dp(n+1,vector<int>(s+1,0));
+        vector<vector<int>>dp(n+1,vector<int>(target+1,0));
         // 1)initialisation
-        for(int col=1;col<s+1;col++){
+        int mod=1e9+7;
+        for(int col=1;col<target+1;col++){
             dp[0][col]=0;
         }
         dp[0][0]=1;
@@ -30,18 +29,17 @@ class Solution{
         }
         
         for(int i=1;i<n+1;i++){
-            for(int j=0;j<s+1;j++){
+            for(int j=0;j<target+1;j++){
                 // 2)choices
                 if(nums[i-1]<=j){
-                    dp[i][j]=(dp[i-1][j-nums[i-1]]+dp[i-1][j])%M;
+                    dp[i][j]=(dp[i-1][j-nums[i-1]]+dp[i-1][j])%mod;
                 }
                 else{
-                    dp[i][j]=dp[i-1][j]%M;
+                    dp[i][j]=dp[i-1][j]%mod;
                 }
             }
         }
-        return dp[n][s]%M;
-    
+        return dp[n][target];
 	}
 	  
 };
