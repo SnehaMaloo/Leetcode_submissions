@@ -37,7 +37,7 @@ public:
             }
             else return a;
         }
-        if(key<root->val)
+        else if(key<root->val)
         {
             root->left=deleteNode(root->left,key);
         }
