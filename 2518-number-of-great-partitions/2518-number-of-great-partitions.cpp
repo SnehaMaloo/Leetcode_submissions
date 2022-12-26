@@ -3,17 +3,19 @@ class Solution {
 public:
     int mod=1e9+7;
     ll int power(ll a, ll b)
-{
-	if (b == 0)
-		return 1;
-	ll x = power(a, b / 2);
-	x = (x * x) % mod;
-	if (b % 2)
-	{
-		x = (x * a) % mod;
-	}
-	return x;
-}
+    {
+	    if(b==0)
+        {
+            return 1;
+        }
+        ll int x=power(a,b/2);
+        x=(x*x)%mod;
+        if(b%2)
+        {
+            x=(x*a)%mod;
+        }
+        return (x)%mod;
+    }
    int solve(int i,vector<int>&nums,int k,vector<vector<long long>> &dp){
        if(i==nums.size())
        {
