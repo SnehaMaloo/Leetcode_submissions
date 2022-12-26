@@ -2,15 +2,15 @@
 class Solution {
 public:
     int mod=1e9+7;
-    ll power(ll a, ll b, ll m)
+    ll int power(ll a, ll b)
 {
 	if (b == 0)
 		return 1;
-	ll x = power(a, b / 2, m);
-	x = (x * x) % m;
+	ll x = power(a, b / 2);
+	x = (x * x) % mod;
 	if (b % 2)
 	{
-		x = (x * a) % m;
+		x = (x * a) % mod;
 	}
 	return x;
 }
@@ -44,7 +44,7 @@ sum+=i;
 
     vector<vector<long long>> dp(n,vector<long long>(k+1,-1));
     ll val=solve(0,nums,k,dp);
-    ll totalval=power(2,n,mod);   
+    ll totalval=power(2,n);   
 
     totalval-=(2*val);
     totalval=(totalval%mod+mod)%mod;
