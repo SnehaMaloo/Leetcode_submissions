@@ -14,22 +14,22 @@ public:
 	}
 	return x;
 }
-   int solve(int ind,vector<int>&nums,int k,vector<vector<long long>> &dp){
-
-    if(ind==nums.size()){
-            return 1;
-    }
-    
-    long long ans=0;
-    if(dp[ind][k]!=-1)
-        return dp[ind][k];
-    
-    if( k>nums[ind])
-        ans+=solve(ind+1,nums,k-nums[ind],dp)%mod;
-    
-    ans+=solve(ind+1,nums,k,dp)%mod;
-    
-    return dp[ind][k]=ans%mod;
+   int solve(int i,vector<int>&nums,int k,vector<vector<long long>> &dp){
+       if(i==nums.size())
+       {
+           return 1;
+       }
+       if(dp[i][k]!=-1)
+       {
+           return dp[i][k];
+       }
+       long long notpick=solve(i+1,nums,k,dp)%mod;
+       long long pick=0;
+       if(nums[i]<k)
+       {
+           pick=solve(i+1,nums,k-nums[i],dp)%mod;
+       }
+       return dp[i][k]=(pick+notpick)%mod;
 }
 public:
 int countPartitions(vector<int>& nums, int k) {
