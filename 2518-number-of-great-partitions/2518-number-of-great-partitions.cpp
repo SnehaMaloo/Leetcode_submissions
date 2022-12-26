@@ -12,9 +12,9 @@ public:
         x=(x*x)%mod;
         if(b%2)
         {
-            x=(x*a)%mod;
+            x=(a*x)%mod;
         }
-        return (x)%mod;
+        return x;
     }
    int solve(int i,vector<int>&nums,int k,vector<vector<long long>> &dp){
        if(i==nums.size())
