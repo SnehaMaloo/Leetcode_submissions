@@ -36,17 +36,17 @@ public:
 // }
     bool isSubsetSum(vector<int>arr, int sum){
         int n=arr.size();
-        vector<vector<bool>>dp(n+1,vector<bool>(sum+1,false));
-        dp[n][0]=true;
+        vector<vector<bool>>dp(2,vector<bool>(sum+1,false));
+        dp[n%2][0]=true;
         for(int i=n-1;i>=0;i--)
         {
             for(int j=0;j<=sum;j++)
             {
                  if(arr[i]>j)
                 { 
-                    dp[i][j]=dp[i+1][j];
+                    dp[i%2][j]=dp[(i+1)%2][j];
                 }
-                else {dp[i][j]=dp[i+1][j-arr[i]]||dp[i+1][j];}
+                else {dp[i%2][j]=dp[(i+1)%2][j-arr[i]]||dp[(i+1)%2][j];}
             }
         }
         return dp[0][sum];
