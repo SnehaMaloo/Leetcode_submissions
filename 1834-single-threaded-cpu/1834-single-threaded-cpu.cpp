@@ -38,7 +38,7 @@ public:
             }
             else if(j<n)
             {
-                cnt=tasks[j][0];
+                cnt=max(cnt,tasks[j][0]);
             }
             else
             {
