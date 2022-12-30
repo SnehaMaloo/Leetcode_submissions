@@ -9,7 +9,7 @@ using namespace std;
 
 class Solution{
 public:
-    int dp[201][2005];
+    int dp[201][10001];
     int rec(int nums[],int sum,int i,int N){
     if(i==N)
     {
