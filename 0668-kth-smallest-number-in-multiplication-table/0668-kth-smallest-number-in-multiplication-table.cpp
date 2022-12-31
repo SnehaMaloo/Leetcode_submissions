@@ -2,7 +2,8 @@ class Solution {
 public:
     int findKthNumber(int m, int n, int k) {
         int low=1,high=m*n;
-        while(low<high)
+        int res=-1;
+        while(low<=high)
         {
             int mid=(low+high)/2;
             int cnt=0;
@@ -20,9 +21,10 @@ public:
             }
             else
             {
-                high=mid;
+                high=mid-1;
+                res=mid;
             }
         }
-        return low;
+        return res;
     }
 };
