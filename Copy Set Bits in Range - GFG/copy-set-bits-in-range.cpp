@@ -8,13 +8,10 @@ using namespace std;
 class Solution{
     public:
     int setSetBit(int x, int y, int l, int r){
-        int nx=0;
-        for(int i=l-1;i<r;i++)
-        {
-            nx|=(1<<i);
-        }
-        int z=nx&y;
-        return z|x;
+        int z=(1LL<<(r-l+1))-1;
+        z=(z<<(l-1));
+        y=z&y;
+        return y|x;
     }
 };
 
