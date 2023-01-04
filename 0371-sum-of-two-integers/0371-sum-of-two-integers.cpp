@@ -1,12 +1,14 @@
 class Solution {
 public:
     int getSum(int a, int b) {
-       int c; 
-      while(b !=0 ) {
-        c = (a&b);
-        a = a ^ b;
-        b = (unsigned int)(c)<<1;
-      }
-      return a;
+      int c=0;
+        while(b!=0)
+        {
+            int temp=(a^b);
+            c=(a&b);
+            b=(unsigned int)(c)<<1;
+            a=temp;
+        }
+        return a;
     }
 };
