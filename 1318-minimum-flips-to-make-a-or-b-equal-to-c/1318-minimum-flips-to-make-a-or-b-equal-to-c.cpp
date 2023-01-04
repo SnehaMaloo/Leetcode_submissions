@@ -1,22 +1,22 @@
 class Solution {
 public:
     int minFlips(int a, int b, int c) {
-        int x=a|b;
-        int cnt=0;
-        for(int i=0;i<32;i++)
+        int z=a|b;
+        z=z^c;
+        int i=0,cnt=0;
+        while(z!=0)
         {
-            if((x&(1<<i))!=(c&(1<<i)))
+            if(z&1==1)
             {
-                if(x&(1<<i))
+                cnt++;
+                if((c&1)==0)
                 {
-                    cnt+=((a&(1<<i))!=0)+((b&(1<<i))!=0);
-                    
-                }
-                else
-                {
-                    cnt+=1;
+                    cnt+=((a&(1<<i))&&(b&(1<<i)));
                 }
             }
+            z=z>>1;
+            c=c>>1;
+            i++;
         }
         return cnt;
     }
