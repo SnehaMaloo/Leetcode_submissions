@@ -4,10 +4,9 @@ public:
       int c=0;
         while(b!=0)
         {
-            int temp=(a^b);
             c=(a&b);
-            b=(unsigned int)(c)<<1;
-            a=temp;
+            a=a^b;
+            b=(unsigned)(c)<<1;
         }
         return a;
     }
