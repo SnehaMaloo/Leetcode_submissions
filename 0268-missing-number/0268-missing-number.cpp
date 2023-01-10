@@ -2,23 +2,23 @@ class Solution {
 public:
     int missingNumber(vector<int>& nums) {
         int n=nums.size();
-        int a=0;
+        int xor0=0,i;
         if(n%4==0)
         {
-            a=n;
+            xor0=n;
         }
         else if(n%4==1)
         {
-            a=1;
+            xor0=1;
         }
         else if(n%4==2)
         {
-            a=n+1;
+            xor0=n+1;
         }
-        for(int i=0;i<n;i++)
+        for(i=0;i<n;i++)
         {
-            a^=nums[i];
+            xor0^=nums[i];
         }
-        return a;
+        return xor0;
     }
 };
