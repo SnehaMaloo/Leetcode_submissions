@@ -1,23 +1,22 @@
 class Solution {
 public:
     char findTheDifference(string s, string t) {
-        int x=0,y=0;
-        int n=s.length(),m=t.length();
-        for(int i=0;i<n;i++)
+        int num=0;
+        int n1=s.length(),n2=t.length(),i;
+        for(i=0;i<n1;i++)
         {
-            x^=(1<<(s[i]-'a'));
+            num^=(1<<(s[i]-'a'));
         }
-        for(int i=0;i<m;i++)
+        for(i=0;i<n2;i++)
         {
-            y^=(1<<(t[i]-'a'));
+            num^=(1<<(t[i]-'a'));
         }
-        int z=x^y;
-        int cnt=0;
-        while(z!=0)
+        i=0;
+        while(num!=0)
         {
-            z=z>>1;
-            cnt++;
+            num=num>>1;
+            i++;
         }
-        return (char)('a'+cnt-1);
+        return char('a'+i-1);
     }
 };
