@@ -5,28 +5,22 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    // Function to detect cycle in an undirected graph.
-    bool ischeck(int V,vector<int>adj[],int i,vector<int>&vis)
+    // Function to detect cycle in an undirected graph.4
+    bool ischeck(vector<int>adj[],int i,vector<int>&vis,int parent)
     {
-        queue<pair<int,int>>q;
-        q.push({i,-1});
         vis[i]=0;
-        while(!q.empty())
+        for(auto it:adj[i])
         {
-            int x=q.front().first;
-            int y=q.front().second;
-            q.pop();
-            for(auto it:adj[x])
+            if(vis[it]==-1)
             {
-                if(vis[it]==-1)
-                {
-                    vis[it]=0;
-                    q.push({it,x});
-                }
-                else if(it!=y)
+                if(ischeck(adj,it,vis,i))
                 {
                     return true;
                 }
+            }
+            else if(it!=parent)
+            {
+                return true;
             }
         }
         return false;
@@ -37,7 +31,7 @@ class Solution {
         {
             if(vis[i]==-1)
             {
-                if(ischeck(V,adj,i,vis))
+                if(ischeck(adj,i,vis,-1))
                 {
                     return true;
                 }
