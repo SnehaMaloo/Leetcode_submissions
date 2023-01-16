@@ -6,39 +6,39 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in a directed graph.
-    bool ischeck(int i,vector<int>&visit,vector<int>adj[])
-    {
-        visit[i]=2;
-        for(auto it:adj[i])
-        {
-            if(visit[it]==-1)
-            {
-                if(ischeck(it,visit,adj))
-                {
-                    return true;
-                }
-            }
-            else if(visit[it]==2)
-            {
-                return true;
-            }
-        }
-        visit[i]--;
-        return false;
-    }
     bool isCyclic(int V, vector<int> adj[]) {
-        vector<int>visit(V,-1);
+        vector<int>indegree(V,0);
         for(int i=0;i<V;i++)
         {
-            if(visit[i]==-1)
+            for(auto it:adj[i])
             {
-                if(ischeck(i,visit,adj))
-                {
-                    return true;
-                }
+                indegree[it]++;
             }
         }
-        return false;
+        queue<int>q;
+        for(int i=0;i<V;i++)
+        {
+            if(indegree[i]==0)
+            {
+                q.push(i);
+            }
+        }
+        int cnt=0;
+        while(!q.empty())
+        {
+            int curr=q.front();
+            cnt++;
+            for(auto it:adj[curr])
+            {
+                indegree[it]--;
+                if(indegree[it]==0)
+                {
+                    q.push(it);
+                }
+            }
+            q.pop();
+        }
+        return (cnt==V)?false:true;
     }
 };
 
