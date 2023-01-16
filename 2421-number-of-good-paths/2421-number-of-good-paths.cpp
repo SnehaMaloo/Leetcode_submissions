@@ -1,77 +1,91 @@
-class UnionFind {
+class Unionfind{
     private:
-        vector<int> id, rank;
-        int cnt;
+    vector<int>rank,parent;
     public:
-        UnionFind(int cnt) : cnt(cnt) {
-            id = vector<int>(cnt);
-            rank = vector<int>(cnt, 0);
-            for (int i = 0; i < cnt; ++i) id[i] = i;
+    Unionfind(int n)
+    {
+        rank.resize(n);
+        parent.resize(n);
+        for(int i=0;i<n;i++)
+        {
+            rank[i]=0;
+            parent[i]=i;
         }
-        int find(int p) {
-            if (id[p] == p) return p;
-            return id[p] = find(id[p]);
+    }
+    
+    int findParent(int u)
+    {
+        if(parent[u]==u)
+        {
+            return u;
         }
-        bool connected(int p, int q) { 
-            return find(p) == find(q); 
+        else return parent[u]=findParent(parent[u]);
+    }
+    
+    void connect(int u,int v)
+    {
+        int x=findParent(u);
+        int y=findParent(v);
+        if(rank[x]>rank[y])
+        {
+            parent[y]=x;
         }
-        void connect(int p, int q) {
-            int i = find(p), j = find(q);
-            if (i == j) return;
-            if (rank[i] < rank[j]) {
-                id[i] = j;  
-            } else {
-                id[j] = i;
-                if (rank[i] == rank[j]) rank[j]++;
-            }
-            --cnt;
+        else if(rank[y]>rank[x])
+        {
+            parent[x]=y;
         }
+        else
+        {
+            parent[y]=x;
+        }
+    }
+    
 };
-
 class Solution {
 public:
     int numberOfGoodPaths(vector<int>& vals, vector<vector<int>>& edges) {
-        int N = vals.size(), goodPaths = 0;
-        vector<vector<int>> adj(N);
-        map<int, vector<int>> sameValues;
-        
-        for (int i = 0; i < N; i++) {
-            sameValues[vals[i]].push_back(i);
-        }
-        
-        for (auto &e : edges) {
-            int u = e[0], v = e[1];
-            
-            if (vals[u] >= vals[v]) {
-                adj[u].push_back(v);
-            } else if (vals[v] >= vals[u]) {
-                adj[v].push_back(u);
+        int n=vals.size();
+        vector<int>adj[n];
+        int cnt=0;
+        for(int i=0;i<edges.size();i++)
+        {
+            int x=edges[i][0];
+            int y=edges[i][1];
+            if(vals[x]>=vals[y])
+            {
+                adj[x].push_back(y);
+            }
+            else
+            {
+                adj[y].push_back(x);
             }
         }
-        
-        UnionFind uf(N);
-        
-        for (auto &[value, allNodes] : sameValues) {
-            
-            for (int u : allNodes) {
-                for (int v : adj[u]) {
-                    uf.connect(u, v);
+        map<int,vector<int>>mp;
+        for(int i=0;i<n;i++)
+        {
+            mp[vals[i]].push_back(i);
+        }
+        Unionfind uf(n);
+        for(auto it=mp.begin();it!=mp.end();it++)
+        {
+            for(auto it1:it->second)
+            {
+                for(auto it2:adj[it1])
+                {
+                    uf.connect(it1,it2);
                 }
             }
-            
-            unordered_map<int, int> group;
-            
-            for (int u : allNodes) {
-                group[uf.find(u)]++;
+            map<int,int>mp1;
+            for(auto it1:it->second)
+            {
+                mp1[uf.findParent(it1)]++;
             }
-            
-            goodPaths += allNodes.size();
-            
-            for (auto &[_, size] : group) {
-                goodPaths += (size * (size - 1) / 2);
+            for(auto it2:mp1)
+            {
+                int size=it2.second;
+                cnt+=(size*(size+1))/2;
             }
         }
-        
-        return goodPaths;
+        return cnt;
     }
 };
