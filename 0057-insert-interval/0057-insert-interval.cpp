@@ -13,7 +13,7 @@ public:
         int n=ivt.size();
         sort(ivt.begin(),ivt.end(),compare);
         bool flag=false;
-        if(n==0||nvt[1]<ivt[0][0])
+        if(n==0)
         {
             flag=true;
             res.push_back(nvt);
