@@ -46,8 +46,7 @@ class Solution
         }
         if(cnt!=n)
         {
-            vector<int>res1;
-            return res1;
+            return {};
         }
         return res;
     }
