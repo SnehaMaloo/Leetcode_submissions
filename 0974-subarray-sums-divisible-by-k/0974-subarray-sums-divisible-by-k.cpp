@@ -5,27 +5,16 @@ public:
         int tot=0;
         unordered_map<int,int>mp;
         int cnt=0;
+        mp[0]++;
         for(int i=0;i<n;i++)
         {
             tot+=nums[i];
-            if(tot%k==0)
+            int mod=(tot%k+k)%k;
+            if(mp.find(mod)!=mp.end())
             {
-                cnt++;
+                cnt+=mp[mod];
             }
-            if(mp.find(tot%k)!=mp.end())
-            {
-                cnt+=mp[tot%k];
-            }
-            if(mp.find(-1*(k-(tot%k)))!=mp.end())
-            {
-                cnt+=mp[-1*((k-(tot%k)))];
-            }
-            if(mp.find(k+(tot%k))!=mp.end())
-            {
-                cnt+=mp[k+(tot%k)];
-            }
-            //cout<<i<<" "<<(tot%k)<<" "<<cnt<<endl;
-            mp[tot%k]++;
+            mp[mod]++;
         }
         return cnt;
     }
