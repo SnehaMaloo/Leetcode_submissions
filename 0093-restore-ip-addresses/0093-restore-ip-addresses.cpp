@@ -1,55 +1,38 @@
 class Solution {
 public:
-    void solve(int i,vector<string>&res,string&s,int x)
-    {
-        if(x==0)
-        {
-            string temp=s.substr(i);
-            if((temp.length()>1&&temp[0]=='0')||stoi(temp)>255)
-            {
-                return;
-            }
-            else
-            {
-                res.push_back(s);
-            }
-            return;
-        }
-        if(i>=(s.length()-1))
-        {
-            return;
-        }
-        if(s[i]=='0')
-        {
-            s=s.substr(0,i+1)+"."+s.substr(i+1);
-            solve(i+2,res,s,x-1);
-            s=s.substr(0,i+1)+s.substr(i+2);
-            return;
-        }
-        for(int j=i;j<s.length()-1;j++)
-        {
-            string temp=s.substr(i,j-i+1);
-            if(stoi(temp)<=255)
-            {
-                s=s.substr(0,j+1)+"."+s.substr(j+1);
-                solve(j+2,res,s,x-1);
-                s=s.substr(0,j+1)+s.substr(j+2);
-            }
-            else
-            {
-                break;
-            }
-        }
-        return;
-    }
     vector<string> restoreIpAddresses(string s) {
         vector<string>res;
         int n=s.length();
-        if(n>12||n<4)
+        int i,j,k,l;
+        for(i=1;i<=3;i++)
         {
-            return res;
+            for(j=1;j<=3;j++)
+            {
+                for(k=1;k<=3;k++)
+                {
+                    for(l=1;l<=3;l++)
+                    {
+                        if(i+j+k+l==n)
+                        {
+                            int a=stoi(s.substr(0,i));
+                            int b=stoi(s.substr(i,j));
+                            int c=stoi(s.substr(j+i,k));
+                            int d=stoi(s.substr(k+j+i));
+                            //cout<<a<<" "<<b<<" "<<c<<" "<<d<<endl;
+                            if(a<=255&&b<=255&&c<=255&&d<=255)
+                            {
+                                string temp=to_string(a)+"."+to_string(b)+"."+to_string(c)+"."+to_string(d);
+                                if(temp.length()==s.length()+3)
+                                {
+                                res.push_back(temp);
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            }
         }
-        solve(0,res,s,3);
         return res;
     }
 };
