@@ -10,17 +10,8 @@ public:
             curr.push_back({b,a});
         }
         sort(curr.begin(),curr.end());
-        i=n-1;
         long long int ans=0,sum=0,j=n-1;
         priority_queue<int,vector<int>,greater<int>>pq;
-        while(j>n-k)
-        {
-            int a=curr[j].second;
-            int b=curr[j].first;
-            sum+=a;
-            pq.push(a);
-            j--;
-        }
         while(j>=0)
         {
             pq.push(curr[j].second);
@@ -30,7 +21,7 @@ public:
                 sum-=pq.top();
                 pq.pop();
             }
-            ans=max(ans,sum*curr[j].first);
+            if(pq.size()==k)ans=max(ans,sum*curr[j].first);
             j--;
         }
         return ans;
