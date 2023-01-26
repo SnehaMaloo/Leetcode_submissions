@@ -1,23 +1,45 @@
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<int>dist(n,1e9);
-        dist[src]=0;
-        int m=flights.size();
-        for(int i=0;i<=k;i++)
+        vector<int>dist(n,INT_MAX);
+        vector<pair<int,int>>adj[n];
+        int m=flights.size(),i;
+        for(i=0;i<m;i++)
         {
-            vector<int>temp(dist);
-            for(int j=0;j<m;j++)
-            {
-                int x=flights[j][0];
-                int y=flights[j][1];
-                int distance=flights[j][2];
-                if(dist[x]!=1e9&&temp[y]>dist[x]+distance)
-                {temp[y]=dist[x]+distance;}
-            }
-            dist=temp;
+            int x=flights[i][0];
+            int y=flights[i][1];
+            int z=flights[i][2];
+            adj[x].push_back({y,z});
         }
-        if(dist[dst]>=1e9)
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq;
+        pq.push({0,{src,0}});
+        dist[src]=0;
+        while(!pq.empty())
+        {
+            auto curr=pq.top();
+            int stops=curr.first;
+            int x=curr.second.first;
+            int currdis=curr.second.second;
+            pq.pop();
+            if(stops>k)
+            {
+                continue;
+            }
+            else
+            {
+                for(auto it:adj[x])
+                {
+                    int y=it.first;
+                    int dis=it.second;
+                    if(dist[y]>dis+currdis)
+                    {
+                        dist[y]=dis+currdis;
+                        pq.push({stops+1,{y,dist[y]}});
+                    }
+                }
+            }
+        }
+        if(dist[dst]==INT_MAX)
         {
             return -1;
         }
