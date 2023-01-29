@@ -1,7 +1,7 @@
 class LFUCache {
 public:
     //freq,key,value pair iterator
-    map<int,list<pair<int,int>>>freq;
+    unordered_map<int,list<pair<int,int>>>freq;
     //freq
     unordered_map<int,pair<int,list<pair<int,int>>::iterator>>mp;
     int max_cap;
@@ -48,14 +48,13 @@ public:
         {
             if(mp.size()==max_cap)
             {
-                auto it=freq.begin();
-                auto val=(it->second).end();
+                auto val=freq[mf].end();
                 val--;
                 mp.erase(val->first);
-                freq[it->first].erase(val);
-                if(freq[it->first].size()==0)
+                freq[mf].erase(val);
+                if(freq[mf].size()==0)
                 {
-                    freq.erase(it->first);
+                    freq.erase(mf);
                 }
             }
             freq[0].push_front({key,value});
