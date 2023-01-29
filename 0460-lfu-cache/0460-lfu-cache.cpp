@@ -26,6 +26,10 @@ public:
             if(freq[frequency].size()==0)
             {
                 freq.erase(frequency);
+                if(frequency==mf)
+                {
+                    mf=frequency+1;
+                }
             }
             freq[frequency+1].push_front({key,x});
             //cout<<frequency+1<<" "<<x<<" "<<key<<endl;
@@ -56,6 +60,7 @@ public:
             }
             freq[0].push_front({key,value});
             mp[key]={0,freq[0].begin()};
+            mf=0;
         }
         else
         {
@@ -64,6 +69,10 @@ public:
             freq[frequency].erase(loc);
             if(freq[frequency].size()==0)
             {
+                if(frequency==mf)
+                {
+                    mf=mf+1;
+                }
                 freq.erase(frequency);
             }
             freq[frequency+1].push_front({key,value});
