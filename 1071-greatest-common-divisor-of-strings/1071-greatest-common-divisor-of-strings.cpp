@@ -40,10 +40,6 @@ public:
     string gcdOfStrings(string str1, string str2) {
         int n1=str1.length();
         int n2=str2.length();
-        if(n1<n2)
-        {
-            return gcdOfStrings(str2,str1);
-        }
         string s1=getit(str1);
         string s2=getit(str2);
         n1=n1/(s1.length());
