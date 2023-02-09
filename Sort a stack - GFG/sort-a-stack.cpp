@@ -58,7 +58,7 @@ void SortedStack :: sort()
    }
    int x=s.top();
    s.pop();
-   SortedStack::sort();
+   sort();
    stack<int>curr;
    while(s.size()!=0&&s.top()>x)
    {
