@@ -44,7 +44,7 @@ int Search(vector<int> vec, int K) {
         int mid=(l+h)/2;
         if(vec[mid]==K)
         {
-            l=mid;
+            res=mid;
             break;
         }
         if(vec[l]<vec[mid])
@@ -70,5 +70,5 @@ int Search(vector<int> vec, int K) {
             }
         }
     }
-    return vec[l]!=K?-1:l;
+    return res;
 }
