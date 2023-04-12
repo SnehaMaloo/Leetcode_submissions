@@ -14,49 +14,36 @@ using namespace std;
 class Solution
 {
 public:
-    bool solve(string &A,unordered_set<string>&st,unordered_map<string,bool>&mp)
-    {
-        if(A.length()==0)
-        {
-            return mp[A]=true;
+    bool f(string a,unordered_map<string ,bool>&mp,unordered_set<string>&s){
+        if(a==""){
+            return true;
         }
-        else if(mp.find(A)!=mp.end())
-        {
-            return mp[A];
+        if(mp.find(a)!=mp.end()){
+            return mp[a];
         }
-        else
-        {
-            int m=A.length();
-            string curr="";
-            bool ok=false;
-            string temp="";
-            for(int i=0;i<m;i++)
-            {
-                curr.push_back(A[i]);
-                temp="";
-                if(i!=m-1)
-                {
-                    temp=A.substr(i+1);
-                }
-                if(st.find(curr)!=st.end()&&solve(temp,st,mp))
-                {
-                    ok=true;
-                    break;
+        string b="";
+        for(int j=0;j<a.size();j++){
+            b+=a[j];
+            if(s.find(b)!=s.end()){
+                string c=a.substr(j+1,a.size()-j);
+                if(f(c,mp,s)==true){
+                    return mp[a]=true;
                 }
             }
-            return mp[A]=ok?true:false;
+            else{
+                continue;
+            }
         }
+        return mp[a]=false;
     }
     int wordBreak(string A, vector<string> &B) {
-        unordered_set<string>st;
-        int n=B.size();
-        //  cout<<"yo"<<endl;
-        for(int i=0;i<n;i++)
-        {
-            st.insert(B[i]);
+        unordered_map<string ,bool>mp;
+        unordered_set<string>s;
+        for(auto i:B){
+            s.insert(i);
+            // mp[i]++;
         }
-        unordered_map<string,bool>mp;
-        return solve(A,st,mp);
+        return f(A,mp,s);
     }
 };
 
