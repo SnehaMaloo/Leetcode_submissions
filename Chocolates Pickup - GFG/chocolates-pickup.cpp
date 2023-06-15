@@ -6,9 +6,8 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    int dp[72][105][105];
     int solve(int n, int m, vector<vector<int>>& grid) {
-        memset(dp,-1,sizeof(dp));
+        vector<vector<int>>dp(m,vector<int>(m,0));
         for(int col1=0;col1<m;col1++)
         {
             for(int col2=0;col2<m;col2++)
@@ -22,11 +21,12 @@ class Solution {
                 {
                     sum+=grid[n-1][col1]+grid[n-1][col2];
                 }
-                dp[n-1][col1][col2]=sum;
+                dp[col1][col2]=sum;
             }
         }
-        for(int i=n-1;i>=0;i--)
+        for(int i=n-2;i>=0;i--)
         {
+             vector<vector<int>>curr(m,vector<int>(m,0));
             for(int col1=0;col1<m;col1++)
             {
                 for(int col2=0;col2<m;col2++)
@@ -51,14 +51,15 @@ class Solution {
                                 {
                                     continue;
                                 }
-                                ans=max(ans,dp[i+1][nc1][nc2]);
+                                ans=max(ans,dp[nc1][nc2]);
                             }
                         }
-                        dp[i][col1][col2]=ans+sum;
+                        curr[col1][col2]=ans+sum;
                 }
             }
+            dp=curr;
         }
-        return dp[0][0][m-1];
+        return dp[0][m-1];
     }
 };
 
