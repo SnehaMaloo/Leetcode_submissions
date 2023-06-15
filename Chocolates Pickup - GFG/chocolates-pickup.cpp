@@ -7,44 +7,58 @@ using namespace std;
 class Solution {
   public:
     int dp[72][105][105];
-    int f(int i,int col1,int col2,int n,int m,vector<vector<int>>&grid)
-    {
-        if(i==n)
-        {
-            return 0;
-        }
-        else if(col1>=m || col2>=m ||col1<0 ||col2<0)
-        {
-            return 0;
-        }
-        else if(dp[i][col1][col2]!=-1)
-        {
-            return dp[i][col1][col2];
-        }
-        int sum=0;
-        if(col1==col2)
-        {
-            sum+=grid[i][col1];
-        }
-        else
-        {
-            sum+=grid[i][col1]+grid[i][col2];
-        }
-        int ans=0;
-        for(int x=-1;x<=1;x++)
-        {
-            int nc1=col1+x;
-            for(int y=-1;y<=1;y++)
-            {
-                int nc2=col2+y;
-                ans=max(ans,f(i+1,nc1,nc2,n,m,grid));
-            }
-        }
-        return dp[i][col1][col2]=ans+sum;
-    }
     int solve(int n, int m, vector<vector<int>>& grid) {
         memset(dp,-1,sizeof(dp));
-        return f(0,0,m-1,n,m,grid);
+        for(int col1=0;col1<m;col1++)
+        {
+            for(int col2=0;col2<m;col2++)
+            {
+                int sum=0;
+                if(col1==col2)
+                {
+                    sum=grid[n-1][col1];
+                }
+                else
+                {
+                    sum+=grid[n-1][col1]+grid[n-1][col2];
+                }
+                dp[n-1][col1][col2]=sum;
+            }
+        }
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int col1=0;col1<m;col1++)
+            {
+                for(int col2=0;col2<m;col2++)
+                {
+                    int sum=0;
+                        if(col1==col2)
+                        {
+                            sum=grid[i][col1];
+                        }
+                        else
+                        {
+                            sum+=grid[i][col1]+grid[i][col2];
+                        }
+                        int ans=0;
+                        for(int x=-1;x<=1;x++)
+                        {
+                            int nc1=col1+x;
+                            for(int y=-1;y<=1;y++)
+                            {
+                                int nc2=col2+y;
+                                if(nc1>=m || nc2>=m || nc1<0 || nc2<0)
+                                {
+                                    continue;
+                                }
+                                ans=max(ans,dp[i+1][nc1][nc2]);
+                            }
+                        }
+                        dp[i][col1][col2]=ans+sum;
+                }
+            }
+        }
+        return dp[0][0][m-1];
     }
 };
 
