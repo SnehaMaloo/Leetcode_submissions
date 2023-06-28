@@ -9,31 +9,30 @@ using namespace std;
 
 class Solution{
 public:
-    int dp[105][105];
-    int solve(int start,int end,int N,int arr[])
-    {
-        if(end-start==1)
-        {
-            return 0;
-        }
-        if(dp[end][start]!=-1)
-        {
-            return dp[end][start];
-        }
-        else
-        {
-            int ans=INT_MAX;
-            for(int i=start+1;i<end;i++)
-            {
-                ans=min(ans,arr[start]*arr[end]*arr[i]+solve(start,i,N,arr)+solve(i,end,N,arr));
-            }
-            return dp[end][start]=ans;
-        }
-    }
+    
     int matrixMultiplication(int N, int arr[])
     {
-        memset(dp,-1,sizeof(dp));
-        return solve(0,N-1,N,arr);
+        vector<vector<int>>dp(N+1,vector<int>(N+1,0));
+        for(int i=N-1;i>=0;i--)
+        {
+            for(int j=0;j<N;j++)
+            {
+                if(j-i==1)
+                {
+                    continue;
+                }
+                else
+                {
+                    int ans=INT_MAX;
+                    for(int x=i+1;x<j;x++)
+                    {
+                        ans=min(ans,arr[i]*arr[j]*arr[x]+dp[i][x]+dp[x][j]);
+                    }
+                    dp[i][j]=ans;
+                }
+            }
+        }
+        return dp[0][N-1];
     }
 };
 
