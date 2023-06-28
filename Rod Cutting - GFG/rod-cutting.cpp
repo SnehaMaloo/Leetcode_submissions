@@ -10,27 +10,19 @@ using namespace std;
 
 class Solution{
   public:
-    int dp[1005];
-    int solve(int n,int price[],int m)
-    {
-        if(n==0)
-        {
-            return 0;
-        }
-        if(dp[n]!=-1)
-        {
-            return dp[n];
-        }
-        int ans=0;
-        for(int i=0;i<min(m,n);i++)
-        {
-           ans=max(ans,price[i]+solve(n-i-1,price,m)); 
-        }
-        return dp[n]=ans;
-    }
     int cutRod(int price[], int n) {
-        memset(dp,-1,sizeof(dp));
-        return solve(n,price,n);
+        vector<int>dp(n+1,0);
+        int m=n;
+        for(int i=1;i<=n;i++)
+        {
+            int ans=0;
+            for(int j=0;j<min(i,m);j++)
+            {
+                ans=max(ans,price[j]+dp[i-j-1]);
+            }
+            dp[i]=ans;
+        }
+        return dp[n];
     }
 };
 
