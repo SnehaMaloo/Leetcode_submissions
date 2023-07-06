@@ -8,7 +8,7 @@ class Solution{
     
     int longestCommonSubstr (string S1, string S2, int n, int m)
     {
-        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        vector<vector<int>>dp(2,vector<int>(m+1,0));
         int maxval=0;
         for(int i=n-1;i>=0;i--)
         {
@@ -16,13 +16,13 @@ class Solution{
             {
                 if(S1[i]==S2[j])
                 {
-                    dp[i][j]=1+dp[i+1][j+1];
+                    dp[i%2][j]=1+dp[(i+1)%2][j+1];
                 }
                 else
                 {
-                    dp[i][j]=0;
+                    dp[i%2][j]=0;
                 }
-                maxval=max(maxval,dp[i][j]);
+                maxval=max(maxval,dp[i%2][j]);
             }
         }
         return maxval;
