@@ -10,29 +10,18 @@ using namespace std;
 
 class Solution{
   public:
-    int solve(int n,int price[],vector<int>&dp)
-    {
-        if(n==0)
-        {
-            return 0;
-        }
-        else if(dp[n]!=-1)
-        {
-            return dp[n];
-        }
-        else
+    int cutRod(int price[], int n) {
+        vector<int>dp(n+1,0);
+        for(int k=1;k<=n;k++)
         {
             int ans=0;
-            for(int i=0;i<n;i++)
+            for(int i=0;i<k;i++)
             {
-                ans=max(ans,solve(n-i-1,price,dp)+price[i]);
+                ans=max(ans,dp[k-i-1]+price[i]);
             }
-            return dp[n]=ans;
+            dp[k]=ans;
         }
-    }
-    int cutRod(int price[], int n) {
-        vector<int>dp(n+1,-1);
-        return solve(n,price,dp);
+        return dp[n];
     }
 };
 
