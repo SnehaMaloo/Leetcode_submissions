@@ -9,60 +9,59 @@ using namespace std;
 
 class Solution{
 public:
-    pair<int,int> solve(int start,int end,string &S,map<string,pair<int,int>>&mp)
-    {
-        if(start==end)
+    int countWays(int N, string S){
+        map<string,pair<int,int>>mp;
+        for(int i=0;i<N;i++)
         {
-            int cntt=0;
-            int cntf=0;
-            if(S[start]=='T')
+            string curr=to_string(i)+"$"+to_string(i);
+            int cntt=0,cntf=0;
+            if(S[i]=='T')
             {
                 cntt++;
             }
-            else
+            else if(S[i]=='F')
             {
                 cntf++;
             }
-            return {cntt,cntf};
+            mp[curr]={cntt,cntf};
         }
-        string curr=to_string(start)+"$"+to_string(end);
-        if(mp.find(curr)!=mp.end())
+        for(int start=N-2;start>=0;start--)
         {
-            return mp[curr];
-        }
-        else
-        {
-            int cntt=0;
-            int cntf=0;
-            for(int i=start+1;i<end;i++)
+            for(int end=start+2;end<N;end++)
             {
-                pair<int,int>pt1=solve(start,i-1,S,mp);
-                pair<int,int>pt2=solve(i+1,end,S,mp);
-                if(S[i]=='|')
+                 int cntt=0;
+                int cntf=0;
+                string curr=to_string(start)+"$"+to_string(end);
+                for(int i=start+1;i<end;i++)
                 {
-                    cntt+=pt1.first*pt2.first+pt1.second*pt2.first+pt1.first*pt2.second;
-                    cntf+=pt1.second*pt2.second;
+                     string curr1=to_string(start)+"$"+to_string(i-1);
+                     string curr2=to_string(i+1)+"$"+to_string(end);
+                    pair<int,int>pt1=mp[curr1];
+                    pair<int,int>pt2=mp[curr2];
+                    if(S[i]=='|')
+                    {
+                        cntt+=pt1.first*pt2.first+pt1.second*pt2.first+pt1.first*pt2.second;
+                        cntf+=pt1.second*pt2.second;
+                    }
+                    else if(S[i]=='&')
+                    {
+                        cntt+=pt1.first*pt2.first;
+                        cntf+=pt1.second*pt2.first+pt1.first*pt2.second+pt1.second*pt2.second;
+                    }
+                    else
+                    {
+                        cntt+=pt1.second*pt2.first+pt1.first*pt2.second;
+                        cntf+=pt1.first*pt2.first+pt1.second*pt2.second;
+                    }
+                    
                 }
-                else if(S[i]=='&')
-                {
-                    cntt+=pt1.first*pt2.first;
-                    cntf+=pt1.second*pt2.first+pt1.first*pt2.second+pt1.second*pt2.second;
-                }
-                else
-                {
-                    cntt+=pt1.second*pt2.first+pt1.first*pt2.second;
-                    cntf+=pt1.first*pt2.first+pt1.second*pt2.second;
-                }
-                
+                cntt=cntt%(1003);
+                cntf=cntf%(1003);
+                mp[curr]={cntt,cntf};
             }
-            cntt=cntt%(1003);
-            cntf=cntf%(1003);
-            return mp[curr]={cntt,cntf};
         }
-    }
-    int countWays(int N, string S){
-        map<string,pair<int,int>>mp;
-        return solve(0,N-1,S,mp).first;
+        string curr=to_string(0)+"$"+to_string(N-1);
+        return mp[curr].first;
     }
 };
 
