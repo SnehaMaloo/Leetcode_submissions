@@ -10,7 +10,7 @@ class Solution
     //Function to return the total number of possible unique BST. 
     long long int dp[1002];
     long long int M=1e9+7;
-    long long int solve(int N)
+    int solve(int N)
     {
         if(N==0)
         {
