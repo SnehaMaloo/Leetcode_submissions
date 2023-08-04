@@ -5,35 +5,28 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    long long int dp[1005][1005];
-    long long int solve(int i,int N,int coins[],int sum)
-    {
-        if(i==N)
-        {
-            if(sum==0)
-            {
-                return 1;
-            }
-            return 0;
-        }
-        else if(dp[i][sum]!=-1)
-        {
-            return dp[i][sum];
-        }
-        else if(coins[i]<=sum)
-        {
-            dp[i][sum]=solve(i+1,N,coins,sum)+solve(i,N,coins,sum-coins[i]);
-        }
-        else
-        {
-            dp[i][sum]=solve(i+1,N,coins,sum);
-        }
-        return dp[i][sum];
-    }
     long long int count(int coins[], int N, int sum) {
 
-        memset(dp,-1,sizeof(dp));
-        return solve(0,N,coins,sum);
+        vector<vector<long long int>>dp(N+1,vector<long long int>(sum+1,0));
+        for(int i=0;i<=N;i++)
+        {
+            dp[i][0]=1;
+        }
+        for(int i=1;i<=N;i++)
+        {
+            for(int j=1;j<=sum;j++)
+            {
+                if(coins[i-1]<=j)
+                {
+                    dp[i][j]=dp[i][j-coins[i-1]]+dp[i-1][j];
+                }
+                else
+                {
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        return dp[N][sum];
     }
 };
 
