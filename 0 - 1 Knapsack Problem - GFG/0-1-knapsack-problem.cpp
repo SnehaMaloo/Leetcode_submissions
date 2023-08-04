@@ -8,26 +8,25 @@ class Solution
 {
     public:
     //Function to return max value that can be put in knapsack of capacity W.
+    
     int knapSack(int W, int wt[], int val[], int n) 
     { 
-       vector<int>dp(W+1,0);
-       for(int i=n-1;i>=0;i--)
-       {
-           vector<int>curr(W+1,0);
-           for(int j=0;j<=W;j++)
-           {
-               int taken=0;
-               int nottaken=0;
-               if(j>=wt[i])
-               {
-                   taken=val[i]+dp[j-wt[i]];
-               }
-               nottaken=dp[j];
-               curr[j]=max(taken,nottaken);
-           }
-           dp=curr;
-       }
-       return dp[W];
+      vector<vector<int>>dp(n+1,vector<int>(W+1,0));
+      for(int i=1;i<=n;i++)
+      {
+          for(int j=1;j<=W;j++)
+          {
+              if(wt[i-1]<=j)
+              {
+                  dp[i][j]=max(val[i-1]+dp[i-1][j-wt[i-1]],dp[i-1][j]);
+              }
+              else
+              {
+                  dp[i][j]=dp[i-1][j];
+              }
+          }
+      }
+      return dp[n][W];
     }
 };
 
