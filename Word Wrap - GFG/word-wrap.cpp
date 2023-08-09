@@ -21,7 +21,7 @@ public:
             return dp[i];
         }
         int ans=INT_MAX,sum=0;
-        for(int j=i;j<nums.size() && sum<=k;j++)
+        for(int j=i;j<nums.size();j++)
         {
             sum+=nums[j];
             if(j!=n-1 && sum<=k)
