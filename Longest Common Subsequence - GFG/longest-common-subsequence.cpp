@@ -27,7 +27,29 @@ class Solution
                }
            }
        }
-       return dp[n][m];
+       int len=dp[n][m];
+       int i=n,j=m;
+       string res="";
+       while(i>0 && j>0)
+       {
+           if(s1[i-1]==s2[j-1])
+           {
+               res.push_back(s2[i-1]);
+               i--;
+               j--;
+           }
+           else if(dp[i-1][j]>dp[i][j-1])
+           {
+               
+                i--;
+           }
+           else
+           {
+               j--;
+           }
+       }
+       reverse(res.begin(),res.end());
+       return res.size();
     }
 };
 
